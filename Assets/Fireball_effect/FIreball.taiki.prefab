@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2763906931424981005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4195896350852300159}
+  - component: {fileID: 7942915297192026547}
+  - component: {fileID: -3100840454316156519}
+  - component: {fileID: 2423984221036264839}
+  m_Layer: 0
+  m_Name: FIreball.taiki
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4195896350852300159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2763906931424981005}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 157.7645, y: 222.2008, z: 147.71606}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2311297654978798960}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7942915297192026547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2763906931424981005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb795b8c5e1f0b9498c14f6f35e86fd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  maxRange: 200
+  hitEffect: {fileID: 113200567707027821, guid: 087203c180fa56a4086f35b0f3ff907c, type: 3}
+  hitEffectLifetime: 2
+  flyingSounds:
+  - {fileID: 8300000, guid: c2a3a6cd8b9c8844ab54de53c17c611f, type: 3}
+  - {fileID: 8300000, guid: 59ea95b55cd4318428efbed943594c74, type: 3}
+  - {fileID: 8300000, guid: d710b09b828bab345a93ae80ddb5d285, type: 3}
+  - {fileID: 8300000, guid: 23ffeabc2c6e2594baf51ad55934ca94, type: 3}
+  flyingSoundVolume: 0.51
+  hitSounds:
+  - {fileID: 8300000, guid: c2a3a6cd8b9c8844ab54de53c17c611f, type: 3}
+  - {fileID: 8300000, guid: 50e4d9fe95c3e544a9c4672d218d22a8, type: 3}
+  - {fileID: 8300000, guid: c8f168c868a96b3439eac1329850eba7, type: 3}
+  - {fileID: 8300000, guid: 58af1d8bc7bf74d4a86eb7a3d78bdd10, type: 3}
+  hitSoundVolume: 3
+--- !u!54 &-3100840454316156519
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2763906931424981005}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &2423984221036264839
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2763906931424981005}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &5692482472670629187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2311297654978798960}
+  - component: {fileID: 2264862846572183545}
+  m_Layer: 0
+  m_Name: FIre_Projectile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2311297654978798960
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5692482472670629187}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4195896350852300159}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2264862846572183545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5692482472670629187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57b70be610e58e418205fd03cfb467e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireEffectLoop
+  effects:
+  - effectPrefab: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
+    interval: 0.1
+    startDelay: 0
+    lifetime: 0.5
+  - effectPrefab: {fileID: 100010, guid: bf6ce3cd3c47ff64cb9bcdfc16964bd6, type: 3}
+    interval: 0.1
+    startDelay: 0
+    lifetime: 0.5
+  - effectPrefab: {fileID: 1273915125232972, guid: 73767e07adddc394d82b994801f89bbb, type: 3}
+    interval: 0.3
+    startDelay: 0
+    lifetime: 10
