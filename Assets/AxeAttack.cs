@@ -9,6 +9,14 @@ public class AxeAttack : MonoBehaviour
     public bool hasHitTree = false;
     public bool hasHitOre = false;
 
+    [Header("========== 振動設定 ==========")]
+    [Header("ヒット時の振動時間（秒）")]
+    public float hitVibrationDuration = 0.15f;
+    [Header("ヒット時の振動周波数 (0～1)")]
+    [Range(0f, 1f)] public float hitVibrationFrequency = 0.8f;
+    [Header("ヒット時の振動強さ (0～1)")]
+    [Range(0f, 1f)] public float hitVibrationAmplitude = 1.0f;
+
     void Update()
     {
         // 右人差し指トリガーで斧を振る
@@ -50,5 +58,20 @@ public class AxeAttack : MonoBehaviour
 
         axe.localRotation = startRot;
         isAttacking = false;
+    }
+
+    // ★ 木や鉱石に当たった時に外部や OnTriggerEnter 等から呼び出すメソッド
+    public void OnHitTarget()
+    {
+        // 右手コントローラーを振動させる
+        StartCoroutine(VibrateController(hitVibrationDuration, hitVibrationFrequency, hitVibrationAmplitude, OVRInput.Controller.RTouch));
+    }
+
+    // 振動制御コルーチン
+    private IEnumerator VibrateController(float duration, float frequency, float amplitude, OVRInput.Controller controller)
+    {
+        OVRInput.SetControllerVibration(frequency, amplitude, controller);
+        yield return new WaitForSeconds(duration);
+        OVRInput.SetControllerVibration(0, 0, controller);
     }
 }

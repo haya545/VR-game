@@ -19,6 +19,15 @@ public class BGMManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            if (audioSource == null)
+            {
+                audioSource = GetComponent<AudioSource>();
+                if (audioSource == null)
+                {
+                    audioSource = gameObject.AddComponent<AudioSource>();
+                }
+            }
         }
         else
         {
@@ -49,8 +58,19 @@ public class BGMManager : MonoBehaviour
 
     private IEnumerator ChangeBGM(AudioClip newClip, float targetVolume)
     {
-        // 現在の音量
         float startVolume = audioSource.volume;
+
+        // フェード時間が0以下の場合は即時切替
+        if (fadeTime <= 0f)
+        {
+            audioSource.Stop();
+            audioSource.clip = newClip;
+            audioSource.loop = true;
+            audioSource.volume = targetVolume;
+            audioSource.Play();
+            fadeCoroutine = null;
+            yield break;
+        }
 
         // 現在のBGMをフェードアウト
         if (audioSource.isPlaying)
@@ -60,13 +80,7 @@ public class BGMManager : MonoBehaviour
             while (time < fadeTime)
             {
                 time += Time.deltaTime;
-
-                audioSource.volume = Mathf.Lerp(
-                    startVolume,
-                    0f,
-                    time / fadeTime
-                );
-
+                audioSource.volume = Mathf.Lerp(startVolume, 0f, time / fadeTime);
                 yield return null;
             }
 
@@ -86,18 +100,11 @@ public class BGMManager : MonoBehaviour
         while (fadeTimeIn < fadeTime)
         {
             fadeTimeIn += Time.deltaTime;
-
-            audioSource.volume = Mathf.Lerp(
-                0f,
-                targetVolume,
-                fadeTimeIn / fadeTime
-            );
-
+            audioSource.volume = Mathf.Lerp(0f, targetVolume, fadeTimeIn / fadeTime);
             yield return null;
         }
 
         audioSource.volume = targetVolume;
-
         fadeCoroutine = null;
     }
 

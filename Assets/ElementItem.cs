@@ -14,122 +14,83 @@ public class ElementItem : MonoBehaviour
     [Header("入手個数")]
     public int amount = 1;
 
+    [Header("取得音")]
+    public AudioClip pickupSound;
+
+    [Tooltip("取得音の音量")]
+    [Range(0f, 1f)]
+    public float pickupVolume = 1.0f;
+
     private bool collected = false;
 
-
-    // ========================================
-    // Triggerで触れた場合
-    // ========================================
     private void OnTriggerEnter(Collider other)
     {
-        TryCollect(other);
-    }
+        // Player以外は無視
+        if (!other.CompareTag("Player"))
+        {
+            return;
+        }
 
-
-    // ========================================
-    // Collider同士がぶつかった場合
-    // ========================================
-    private void OnCollisionEnter(Collision collision)
-    {
-        TryCollect(collision.collider);
-    }
-
-
-    // ========================================
-    // 元素取得
-    // ========================================
-    private void TryCollect(Collider other)
-    {
-        // すでに取得済みなら何もしない
+        // 二重取得防止
         if (collected)
         {
             return;
         }
 
-
-        // ========================================
-        // プレイヤーか確認
-        // ========================================
-
-        bool isPlayer = false;
-
-        // 自分自身
-        if (other.CompareTag("Player"))
-        {
-            isPlayer = true;
-        }
-
-        // 親オブジェクトがPlayer
-        if (other.GetComponentInParent<CharacterController>() != null)
-        {
-            isPlayer = true;
-        }
-
-        // 親にPlayerタグがある場合
-        Transform parent = other.transform;
-
-        while (parent != null)
-        {
-            if (parent.CompareTag("Player"))
-            {
-                isPlayer = true;
-                break;
-            }
-
-            parent = parent.parent;
-        }
-
-
-        // プレイヤー以外なら終了
-        if (!isPlayer)
-        {
-            return;
-        }
-
-
-        // ========================================
-        // InventoryManagerを探す
-        // ========================================
-
-        InventoryManager inventory =
-            FindFirstObjectByType<InventoryManager>();
-
-
-        if (inventory == null)
-        {
-            Debug.LogError(
-                "❌ InventoryManagerがシーンにありません！"
-            );
-
-            return;
-        }
-
-
-        // ========================================
-        // インベントリに追加
-        // ========================================
-
-        inventory.AddElement(
-            elementName,
-            displayName,
-            icon,
-            amount
-        );
-
-
-        Debug.Log(
-            "✅ 元素を取得！：" +
-            displayName +
-            " × " +
-            amount
-        );
-
-
-        // 取得済みにする
         collected = true;
 
+        // =====================================================
+        // インベントリへ追加
+        // =====================================================
 
-        // 元素オブジェクトを消す
+        InventoryManager inventoryManager =
+            FindFirstObjectByType<InventoryManager>();
+
+        if (inventoryManager != null)
+        {
+            inventoryManager.AddElement(
+                elementName,
+                displayName,
+                icon,
+                amount
+            );
+
+            Debug.Log(
+                "🎒 元素を取得：" +
+                displayName +
+                " × " +
+                amount
+            );
+        }
+        else
+        {
+            Debug.LogError(
+                "❌ InventoryManagerが見つかりません！"
+            );
+        }
+
+        // =====================================================
+        // 取得音を鳴らす
+        // =====================================================
+
+        if (pickupSound != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                pickupSound,
+                transform.position,
+                pickupVolume
+            );
+
+            Debug.Log(
+                "🔊 元素取得音：" +
+                pickupSound.name
+            );
+        }
+
+        // =====================================================
+        // 元素オブジェクトを削除
+        // =====================================================
+
         Destroy(gameObject);
     }
 }

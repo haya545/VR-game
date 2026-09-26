@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class ElementGun : MonoBehaviour
@@ -95,8 +96,7 @@ public class ElementGun : MonoBehaviour
     [Header("========== ドロップ元素 ==========")]
 
     [Tooltip("＋ボタンから元素を追加できます")]
-    public List<AirElement> airElements =
-        new List<AirElement>();
+    public List<AirElement> airElements = new List<AirElement>();
 
 
     // =========================================================
@@ -108,6 +108,18 @@ public class ElementGun : MonoBehaviour
 
     [Header("エフェクト表示時間")]
     public float dropEffectLifetime = 2f;
+
+
+    // =========================================================
+    // 📳 振動設定
+    // =========================================================
+    [Header("========== 振動設定 ==========")]
+    [Header("発射時の振動時間（秒）")]
+    public float shootVibrationDuration = 0.2f;
+    [Header("発射時の振動周波数 (0～1)")]
+    [Range(0f, 1f)] public float shootVibrationFrequency = 0.7f;
+    [Header("発射時の振動強さ (0～1)")]
+    [Range(0f, 1f)] public float shootVibrationAmplitude = 0.8f;
 
 
     // =========================================================
@@ -148,7 +160,6 @@ public class ElementGun : MonoBehaviour
         if (laser != null)
         {
             laser.enabled = false;
-
             laser.startWidth = laserWidth;
             laser.endWidth = laserWidth;
         }
@@ -162,7 +173,6 @@ public class ElementGun : MonoBehaviour
     {
         // レーザーポインター
         UpdateLaser();
-
 
         // 右コントローラーの右トリガー
         if (OVRInput.GetDown(
@@ -186,14 +196,9 @@ public class ElementGun : MonoBehaviour
 
         laser.enabled = true;
 
-        Vector3 startPosition =
-            effectPoint.position;
-
-        Vector3 direction =
-            effectPoint.forward;
-
-        Vector3 endPosition =
-            startPosition + direction * range;
+        Vector3 startPosition = effectPoint.position;
+        Vector3 direction = effectPoint.forward;
+        Vector3 endPosition = startPosition + direction * range;
 
         RaycastHit hit;
 
@@ -206,15 +211,8 @@ public class ElementGun : MonoBehaviour
             endPosition = hit.point;
         }
 
-        laser.SetPosition(
-            0,
-            startPosition
-        );
-
-        laser.SetPosition(
-            1,
-            endPosition
-        );
+        laser.SetPosition(0, startPosition);
+        laser.SetPosition(1, endPosition);
     }
 
 
@@ -227,10 +225,10 @@ public class ElementGun : MonoBehaviour
         Debug.Log("🔫 銃を撃った！");
         Debug.Log("================================");
 
+        // ★ 発射時のコントローラー振動を発生させる
+        StartCoroutine(VibrateController(shootVibrationDuration, shootVibrationFrequency, shootVibrationAmplitude, OVRInput.Controller.RTouch));
 
-        // =====================================================
         // 🔊 トリガー音
-        // =====================================================
         if (triggerSound != null)
         {
             AudioSource.PlayClipAtPoint(
@@ -240,28 +238,18 @@ public class ElementGun : MonoBehaviour
             );
         }
 
-
-        // =====================================================
         // 発射エフェクト
-        // =====================================================
         PlayShootEffect();
 
-
-        // =====================================================
         // Rayの発射位置
-        // =====================================================
         Transform rayPoint =
             effectPoint != null
             ? effectPoint
             : transform;
 
-        Vector3 direction =
-            rayPoint.forward;
+        Vector3 direction = rayPoint.forward;
 
-
-        // =====================================================
         // 上向き角度を計算
-        // =====================================================
         float upAngle =
             Mathf.Asin(
                 Mathf.Clamp(
@@ -271,51 +259,26 @@ public class ElementGun : MonoBehaviour
                 )
             ) * Mathf.Rad2Deg;
 
+        Debug.Log("🔭 現在の上向き角度：" + upAngle.ToString("F1") + "°");
+        Debug.Log("📐 判定範囲：" + minUpAngle + "° ～ " + maxUpAngle + "°");
 
-        Debug.Log(
-            "🔭 現在の上向き角度：" +
-            upAngle.ToString("F1") +
-            "°"
-        );
-
-
-        Debug.Log(
-            "📐 判定範囲：" +
-            minUpAngle +
-            "° ～ " +
-            maxUpAngle +
-            "°"
-        );
-
-
-        // =====================================================
         // 空中元素取得判定
-        // =====================================================
         if (upAngle >= minUpAngle &&
             upAngle <= maxUpAngle)
         {
-            Debug.Log(
-                "☁️ 空中元素取得の角度です！"
-            );
-
+            Debug.Log("☁️ 空中元素取得の角度です！");
             TryDropAirElement(rayPoint);
         }
         else
         {
-            Debug.Log(
-                "➡️ 空中元素取得の角度ではありません"
-            );
+            Debug.Log("➡️ 空中元素取得の角度ではありません");
         }
 
-
-        // =====================================================
         // 通常のRaycast
-        // =====================================================
         Ray ray = new Ray(
             rayPoint.position,
             direction
         );
-
 
         Debug.DrawRay(
             ray.origin,
@@ -324,24 +287,16 @@ public class ElementGun : MonoBehaviour
             2f
         );
 
-
         RaycastHit hit;
-
 
         if (Physics.Raycast(
             ray,
             out hit,
             range))
         {
-            Debug.Log(
-                "🎯 命中：" +
-                hit.collider.gameObject.name
-            );
+            Debug.Log("🎯 命中：" + hit.collider.gameObject.name);
 
-
-            // =================================================
             // 🎯 命中音
-            // =================================================
             if (hitSound != null)
             {
                 AudioSource.PlayClipAtPoint(
@@ -351,37 +306,23 @@ public class ElementGun : MonoBehaviour
                 );
             }
 
-
-            // =================================================
             // ElementSourceを探す
-            // =================================================
             ElementSource elementSource =
                 hit.collider.GetComponentInParent<ElementSource>();
 
-
             if (elementSource != null)
             {
-                Debug.Log(
-                    "✨ ElementSourceを発見！"
-                );
-
-
-                elementSource.Convert(
-                    hit.point
-                );
+                Debug.Log("✨ ElementSourceを発見！");
+                elementSource.Convert(hit.point);
             }
             else
             {
-                Debug.Log(
-                    "⚠ 命中先にElementSourceはありません"
-                );
+                Debug.Log("⚠ 命中先にElementSourceはありません");
             }
         }
         else
         {
-            Debug.Log(
-                "💨 何にも当たっていません"
-            );
+            Debug.Log("💨 何にも当たっていません");
         }
     }
 
@@ -396,12 +337,10 @@ public class ElementGun : MonoBehaviour
             return;
         }
 
-
         Transform spawnPoint =
             effectPoint != null
             ? effectPoint
             : transform;
-
 
         GameObject effect =
             Instantiate(
@@ -410,49 +349,40 @@ public class ElementGun : MonoBehaviour
                 spawnPoint.rotation
             );
 
-
         Destroy(
             effect,
             effectLifetime
         );
 
+        Debug.Log("✨ 発射エフェクトを生成しました！");
+    }
 
-        Debug.Log(
-            "✨ 発射エフェクトを生成しました！"
-        );
+
+    // =========================================================
+    // 📳 振動制御コルーチン
+    // =========================================================
+    private IEnumerator VibrateController(float duration, float frequency, float amplitude, OVRInput.Controller controller)
+    {
+        OVRInput.SetControllerVibration(frequency, amplitude, controller);
+        yield return new WaitForSeconds(duration);
+        OVRInput.SetControllerVibration(0, 0, controller);
     }
 
 
     // =========================================================
     // 空中元素ドロップ判定
     // =========================================================
-    private void TryDropAirElement(
-        Transform rayPoint)
+    private void TryDropAirElement(Transform rayPoint)
     {
-        Debug.Log(
-            "🎲 空中元素の抽選開始"
-        );
+        Debug.Log("🎲 空中元素の抽選開始");
 
-
-        // -----------------------------------------------------
-        // 元素登録チェック
-        // -----------------------------------------------------
-        if (airElements == null ||
-            airElements.Count == 0)
+        if (airElements == null || airElements.Count == 0)
         {
-            Debug.LogError(
-                "❌ Air Elementsに元素が登録されていません！"
-            );
-
+            Debug.LogError("❌ Air Elementsに元素が登録されていません！");
             return;
         }
 
-
-        // -----------------------------------------------------
-        // 合計確率
-        // -----------------------------------------------------
         float totalChance = 0f;
-
 
         foreach (AirElement element in airElements)
         {
@@ -461,69 +391,29 @@ public class ElementGun : MonoBehaviour
                 continue;
             }
 
-
-            totalChance +=
-                Mathf.Max(
-                    0f,
-                    element.dropChance
-                );
-
+            totalChance += Mathf.Max(0f, element.dropChance);
 
             Debug.Log(
-                "🧪 " +
-                element.displayName +
-                " / " +
-                element.dropChance +
+                "🧪 " + element.displayName +
+                " / " + element.dropChance +
                 "% / Prefab：" +
-                (
-                    element.elementPrefab != null
-                    ? element.elementPrefab.name
-                    : "未設定"
-                )
+                (element.elementPrefab != null ? element.elementPrefab.name : "未設定")
             );
         }
 
-
-        Debug.Log(
-            "📊 合計確率：" +
-            totalChance +
-            "%"
-        );
-
+        Debug.Log("📊 合計確率：" + totalChance + "%");
 
         if (totalChance <= 0f)
         {
-            Debug.LogError(
-                "❌ 合計ドロップ確率が0です！"
-            );
-
+            Debug.LogError("❌ 合計ドロップ確率が0です！");
             return;
         }
 
+        float randomValue = Random.Range(0f, totalChance);
 
-        // -----------------------------------------------------
-        // 抽選
-        // -----------------------------------------------------
-        float randomValue =
-            Random.Range(
-                0f,
-                totalChance
-            );
+        Debug.Log("🎲 抽選結果：" + randomValue.ToString("F2") + " / " + totalChance.ToString("F2"));
 
-
-        Debug.Log(
-            "🎲 抽選結果：" +
-            randomValue.ToString("F2") +
-            " / " +
-            totalChance.ToString("F2")
-        );
-
-
-        // -----------------------------------------------------
-        // 元素決定
-        // -----------------------------------------------------
         float currentChance = 0f;
-
 
         foreach (AirElement element in airElements)
         {
@@ -532,93 +422,37 @@ public class ElementGun : MonoBehaviour
                 continue;
             }
 
-
-            currentChance +=
-                Mathf.Max(
-                    0f,
-                    element.dropChance
-                );
-
+            currentChance += Mathf.Max(0f, element.dropChance);
 
             if (randomValue <= currentChance)
             {
-                Debug.Log(
-                    "🎯 当選：" +
-                    element.displayName
-                );
-
-
-                DropElement(
-                    element,
-                    rayPoint
-                );
-
-
+                Debug.Log("🎯 当選：" + element.displayName);
+                DropElement(element, rayPoint);
                 return;
             }
         }
 
-
-        Debug.LogWarning(
-            "⚠ 元素の抽選に失敗しました"
-        );
+        Debug.LogWarning("⚠ 元素の抽選に失敗しました");
     }
 
 
     // =========================================================
     // 元素Prefabを生成
     // =========================================================
-    private void DropElement(
-        AirElement element,
-        Transform rayPoint)
+    private void DropElement(AirElement element, Transform rayPoint)
     {
-        // -----------------------------------------------------
-        // Prefab確認
-        // -----------------------------------------------------
         if (element.elementPrefab == null)
         {
-            Debug.LogError(
-                "❌ " +
-                element.displayName +
-                " のPrefabが設定されていません！"
-            );
-
+            Debug.LogError("❌ " + element.displayName + " のPrefabが設定されていません！");
             return;
         }
 
+        Vector3 forwardOffset = rayPoint.forward * dropForwardDistance;
+        Vector3 heightOffset = Vector3.up * dropHeight;
+        Vector3 spawnPosition = rayPoint.position + forwardOffset + heightOffset;
 
-        // -----------------------------------------------------
-        // 生成位置
-        // -----------------------------------------------------
+        Debug.Log("📍 元素生成位置：" + spawnPosition);
 
-        // 銃の前方向
-        Vector3 forwardOffset =
-            rayPoint.forward *
-            dropForwardDistance;
-
-
-        // 銃より上
-        Vector3 heightOffset =
-            Vector3.up *
-            dropHeight;
-
-
-        // 最終位置
-        Vector3 spawnPosition =
-            rayPoint.position +
-            forwardOffset +
-            heightOffset;
-
-
-        Debug.Log(
-            "📍 元素生成位置：" +
-            spawnPosition
-        );
-
-
-        // -----------------------------------------------------
-        // Prefab生成
-        // -----------------------------------------------------
         GameObject droppedElement =
             Instantiate(
                 element.elementPrefab,
@@ -626,20 +460,9 @@ public class ElementGun : MonoBehaviour
                 Quaternion.identity
             );
 
+        Debug.Log("🧪 " + element.displayName + " ×1 を生成しました！");
 
-        Debug.Log(
-            "🧪 " +
-            element.displayName +
-            " ×1 を生成しました！"
-        );
-
-
-        // -----------------------------------------------------
-        // Rigidbody
-        // -----------------------------------------------------
-        Rigidbody rb =
-            droppedElement.GetComponent<Rigidbody>();
-
+        Rigidbody rb = droppedElement.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
@@ -649,49 +472,27 @@ public class ElementGun : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
-
-            Debug.Log(
-                "⬇ Rigidbodyの重力を有効にしました"
-            );
+            Debug.Log("⬇ Rigidbodyの重力を有効にしました");
         }
         else
         {
-            Debug.LogWarning(
-                "⚠ " +
-                element.displayName +
-                " PrefabにRigidbodyがありません！"
-            );
+            Debug.LogWarning("⚠ " + element.displayName + " PrefabにRigidbodyがありません！");
         }
 
-
-        // -----------------------------------------------------
-        // ドロップエフェクト
-        // -----------------------------------------------------
-        PlayDropEffect(
-            spawnPosition
-        );
-
-
-        // -----------------------------------------------------
-        // ドロップSE
-        // -----------------------------------------------------
-        PlayDropSound(
-            spawnPosition
-        );
+        PlayDropEffect(spawnPosition);
+        PlayDropSound(spawnPosition);
     }
 
 
     // =========================================================
     // ドロップエフェクト
     // =========================================================
-    private void PlayDropEffect(
-        Vector3 position)
+    private void PlayDropEffect(Vector3 position)
     {
         if (dropEffect == null)
         {
             return;
         }
-
 
         GameObject effect =
             Instantiate(
@@ -700,30 +501,21 @@ public class ElementGun : MonoBehaviour
                 Quaternion.identity
             );
 
+        Destroy(effect, dropEffectLifetime);
 
-        Destroy(
-            effect,
-            dropEffectLifetime
-        );
-
-
-        Debug.Log(
-            "✨ ドロップエフェクト再生"
-        );
+        Debug.Log("✨ ドロップエフェクト再生");
     }
 
 
     // =========================================================
     // ドロップ効果音
     // =========================================================
-    private void PlayDropSound(
-        Vector3 position)
+    private void PlayDropSound(Vector3 position)
     {
         if (dropSound == null)
         {
             return;
         }
-
 
         AudioSource.PlayClipAtPoint(
             dropSound,
@@ -731,9 +523,6 @@ public class ElementGun : MonoBehaviour
             dropSoundVolume
         );
 
-
-        Debug.Log(
-            "🔊 ドロップ効果音再生"
-        );
+        Debug.Log("🔊 ドロップ効果音再生");
     }
 }
