@@ -175,7 +175,7 @@ MonoBehaviour:
   cookedMeatPrefab: {fileID: 6510391683948575492, guid: bd9153c338f82c14197bd392525055d5, type: 3}
   cookedMeatAmount: 1
   cookingEffects:
-  - effectPrefab: {fileID: 4826897285905209611, guid: 8c139be37c2608f44b8d00803180bbbf, type: 3}
+  - effectPrefab: {fileID: 1947871717301538, guid: bac8b027bd6fe6f4faf199fd3a836fbf, type: 3}
     loopInterval: 0.1
     effectPoint: {fileID: 0}
     effectLifetime: 0.5

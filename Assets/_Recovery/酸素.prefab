@@ -111,6 +111,8 @@ MonoBehaviour:
   displayName: "\u9178\u7D20"
   icon: {fileID: 1084368694, guid: d11158708fdf1d94bac0f86eb57e4b89, type: 3}
   amount: 1
+  pickupSound: {fileID: 8300000, guid: beaf72afc4df5384fad721153986a5e5, type: 3}
+  pickupVolume: 1
 --- !u!136 &1662301027995202908
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -112,6 +112,8 @@ MonoBehaviour:
   displayName: "\u9244"
   icon: {fileID: 1111020088, guid: 101bcc81a85c9834aaed90ad4eb3a210, type: 3}
   amount: 1
+  pickupSound: {fileID: 8300000, guid: beaf72afc4df5384fad721153986a5e5, type: 3}
+  pickupVolume: 1
 --- !u!136 &1652450926071929774
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -201,3 +203,5 @@ MonoBehaviour:
   displayName: "\u9244"
   icon: {fileID: 0}
   amount: 1
+  pickupSound: {fileID: 8300000, guid: beaf72afc4df5384fad721153986a5e5, type: 3}
+  pickupVolume: 0.503

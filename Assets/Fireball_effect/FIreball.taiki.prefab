@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireEffectLoop
   effects:
-  - effectPrefab: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
+  - effectPrefab: {fileID: 1947871717301538, guid: bac8b027bd6fe6f4faf199fd3a836fbf, type: 3}
     interval: 0.1
     startDelay: 0
     lifetime: 0.5

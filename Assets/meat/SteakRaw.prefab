@@ -144,22 +144,22 @@ MonoBehaviour:
   cookedMeatPrefab: {fileID: 7648406842372279871, guid: a2e4e98928d03124e8ba876afa50c242, type: 3}
   cookedMeatAmount: 1
   cookingEffects:
-  - effectPrefab: {fileID: 4826897285905209611, guid: 8c139be37c2608f44b8d00803180bbbf, type: 3}
+  - effectPrefab: {fileID: 1088662189748150893, guid: 347624cb674f1e94b9e31561479652e6, type: 3}
     loopInterval: 0.1
     effectPoint: {fileID: 0}
-    effectLifetime: 0.3
+    effectLifetime: 5
   - effectPrefab: {fileID: 1273915125232972, guid: 73767e07adddc394d82b994801f89bbb, type: 3}
     loopInterval: 0.1
     effectPoint: {fileID: 0}
-    effectLifetime: 1
+    effectLifetime: 5
   cookingSounds:
   - {fileID: 8300000, guid: 25f6df8c674e9094e99e774b18d11582, type: 3}
   - {fileID: 8300000, guid: c2a3a6cd8b9c8844ab54de53c17c611f, type: 3}
   cookingSoundVolume: 2.22
   finishedCookingEffects:
-  - effectPrefab: {fileID: 4826897285905209611, guid: 8c139be37c2608f44b8d00803180bbbf, type: 3}
+  - effectPrefab: {fileID: 1947871717301538, guid: bac8b027bd6fe6f4faf199fd3a836fbf, type: 3}
     effectPoint: {fileID: 0}
-    effectLifetime: 0.65
+    effectLifetime: 1
   finishedCookingSounds:
   - {fileID: 8300000, guid: 76d9af04c65a2e54eb6c31d936397d39, type: 3}
   finishedCookingSoundVolume: 1

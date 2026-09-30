@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.abstractocclusion.webgpuwater": {
+      "version": "file:com.abstractocclusion.webgpuwater",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "17.0.0",
+        "com.unity.inputsystem": "1.18.0"
+      }
+    },
     "com.meta.xr.sdk.core": {
       "version": "205.0.0",
       "depth": 0,
@@ -285,6 +294,15 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "com.unity.visualeffectgraph": {
+      "version": "17.4.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.shadergraph": "17.4.0",
+        "com.unity.render-pipelines.core": "17.4.0"
+      }
+    },
     "com.unity.visualscripting": {
       "version": "1.9.11",
       "depth": 0,
@@ -335,6 +353,16 @@
         "com.unity.xr.core-utils": "2.2.1",
         "com.unity.modules.subsystems": "1.0.0",
         "com.unity.xr.legacyinputhelpers": "2.1.11"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.xr.oculus": {
+      "version": "4.5.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.management": "4.4.0",
+        "com.unity.modules.androidjni": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },

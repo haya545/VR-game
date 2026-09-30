@@ -6,34 +6,17 @@ public class csShowAllEffect : MonoBehaviour
 {
     public string[] EffectName;
     public Transform[] Effect;
-
     public Text Text1;
-
     public int i = 0;
-
 
     void Start()
     {
-        Instantiate(
-            Effect[i],
-            new Vector3(0, 0, 0),
-            Quaternion.identity
-        );
+        Instantiate(Effect[i], new Vector3(0, 0, 0), Quaternion.identity);
     }
-
 
     void Update()
     {
-        if (Text1 != null)
-        {
-            Text1.text =
-                (i + 1) + ":" + EffectName[i];
-        }
-
-
-        // =========================
-        // Zキー：前のエフェクト
-        // =========================
+        Text1.text = (i + 1) + ":" + EffectName[i];
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -42,17 +25,8 @@ public class csShowAllEffect : MonoBehaviour
             else
                 i--;
 
-            Instantiate(
-                Effect[i],
-                new Vector3(0, 0, 0),
-                Quaternion.identity
-            );
+            Instantiate(Effect[i], new Vector3(0, 0, 0), Quaternion.identity);
         }
-
-
-        // =========================
-        // Xキー：次のエフェクト
-        // =========================
 
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -61,25 +35,12 @@ public class csShowAllEffect : MonoBehaviour
             else
                 i = 0;
 
-            Instantiate(
-                Effect[i],
-                new Vector3(0, 0, 0),
-                Quaternion.identity
-            );
+            Instantiate(Effect[i], new Vector3(0, 0, 0), Quaternion.identity);
         }
-
-
-        // =========================
-        // Cキー：現在のエフェクト
-        // =========================
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Instantiate(
-                Effect[i],
-                new Vector3(0, 0, 0),
-                Quaternion.identity
-            );
+            Instantiate(Effect[i], new Vector3(0, 0, 0), Quaternion.identity);
         }
     }
 }

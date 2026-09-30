@@ -109,8 +109,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ElementItem
   elementName: Hydrogen
   displayName: "\u6C34\u7D20"
-  icon: {fileID: 0}
+  icon: {fileID: 1324274510, guid: 501d24bd36047f644b80103ee11641cb, type: 3}
   amount: 1
+  pickupSound: {fileID: 8300000, guid: beaf72afc4df5384fad721153986a5e5, type: 3}
+  pickupVolume: 1
 --- !u!136 &1331471768977043739
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 4fefe61039f8fe241965536bc093e6bc
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/C#/vr-project.finalize.unity
+    guid: 87d2e84a553a12740a5280c4b2aae484
+  - enabled: 1
+    path: Assets/52SpecialEffectPack/SampleScence.unity
+    guid: 15c4341fc4db4c54fba52d9aecc92454
+  - enabled: 1
+    path: Assets/TextMesh Pro/Examples & Extras/Scenes/02 - Multi-line TextMesh Pro.unity
+    guid: 251716609f634449bfe8ce75c0ed78fe
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 00fa66c18e0cab34ea0538a56ad6f37f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

@@ -133,6 +133,8 @@ MonoBehaviour:
   displayName: "\u70AD\u7D20"
   icon: {fileID: 410824576, guid: aaf13eb4bded30f42a4f2fb1858bd502, type: 3}
   amount: 1
+  pickupSound: {fileID: 8300000, guid: beaf72afc4df5384fad721153986a5e5, type: 3}
+  pickupVolume: 1
 --- !u!135 &-9024121373215182860
 SphereCollider:
   m_ObjectHideFlags: 0
